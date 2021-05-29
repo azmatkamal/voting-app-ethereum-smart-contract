@@ -22,4 +22,11 @@ module.exports = {
       network_id: "*",
     },
   },
+  mocha: {
+    reporter: 'eth-gas-reporter',
+    reporterOptions : {
+      currency: 'EUR',
+      gasPrice: 10
+    }
+  }
 };

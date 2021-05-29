@@ -7,10 +7,16 @@ contract("Mayor", (accounts) => {
   let escrow;
 
   before(() => {
-    quorum = Math.floor(Math.random() * 10) + 1; // 0-9 random +1 => 1-10 random
+    quorum = 10; //Math.floor(Math.random() * 10) + 1; // 0-9 random +1 => 1-10 random
     candidate = accounts[0];
     escrow = accounts[1];
 
+    console.log("\t Quorum: " + quorum);
+    console.log("\t Candidate: " + candidate);
+    console.log("\t Escrow: " + escrow);
+  });
+
+  after(() => {
     console.log("\t Quorum: " + quorum);
     console.log("\t Candidate: " + candidate);
     console.log("\t Escrow: " + escrow);
@@ -67,10 +73,11 @@ contract("Mayor", (accounts) => {
       });
     }
     const result = await instance.mayor_or_sayonara();
+    console.log("\t Gas Used: " + result.receipt.gasUsed);
     truffleAssert.eventEmitted(result, "NewMayor");
   });
 
-  it("should be able to open envelop - NewMayor scenario", async () => {
+  it("should be able to open envelop - Sayonara scenario", async () => {
     for (let i = 0; i < quorum; i++) {
       const envelops = await instance.compute_envelope(
         i + 1,
@@ -87,6 +94,7 @@ contract("Mayor", (accounts) => {
       });
     }
     const result = await instance.mayor_or_sayonara();
+    console.log("\t Gas Used: " + result.receipt.gasUsed);
     truffleAssert.eventEmitted(result, "Sayonara");
   });
 });
