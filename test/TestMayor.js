@@ -79,16 +79,18 @@ contract("Mayor", (accounts) => {
 
   it("should be able to open envelop - Sayonara scenario", async () => {
     for (let i = 0; i < quorum; i++) {
+      let doblon = i < parseInt(quorum / 4) ? true : false;
       const envelops = await instance.compute_envelope(
         i + 1,
-        false,
+        doblon,
         (i + 1) * 5000
       );
       await instance.cast_envelope(envelops, { from: accounts[i + 3] });
     }
 
     for (let i = 0; i < quorum; i++) {
-      await instance.open_envelope.sendTransaction(i + 1, false, {
+      let doblon = i < parseInt(quorum / 4) ? true : false;
+      await instance.open_envelope.sendTransaction(i + 1, doblon, {
         from: accounts[i + 3],
         value: (i + 1) * 5000,
       });
