@@ -59,6 +59,7 @@ contract Mayor {
     // Refund phase variables
     mapping(address => Refund) souls;
     address payable[] voters;
+    bool private flag = false;
 
     /// @notice The constructor only initializes internal variables
     /// @param _candidate (address) The address of the mayor candidate
@@ -108,7 +109,10 @@ contract Mayor {
     // After all envelopes have been opened, the smart contract checks
     // whether the mayor is confirmed or not: in any case, the voters who expressed the “losing
     // vote” (nay in case of confirmation, yay in case of rejection) get their soul back as refund.
-    function mayor_or_sayonara() canCheckOutcome public {
+    function mayor_or_sayonara() canCheckOutcome  public {
+        require(flag == false, "The function can be called only for a single time.");
+
+        flag = true;
         if (yaySoul > naySoul) {
             uint winner_amount = 0;
             for (uint i = 0; i < voters.length; i++) {
