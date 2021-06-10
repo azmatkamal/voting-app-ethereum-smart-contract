@@ -153,18 +153,39 @@ contract MayorMultipleCandidates {
         }
 
         if(winningVote == winningVote2) {
-            // Drawn case
-            for (uint i = 0; i < candidate_list.length; i++) {
-                address payable candidate_address = candidate_list[i];
-                for (uint v = 0; v < candidates[candidate_address].voters.length; v++) {
-                    address payable voter = candidates[candidate_address].voters[v];
-                    Refund memory voter_details = souls[voter];
-                    voter.transfer(voter_details.soul);
-                }                
+            // WINNER BASED ON VOTE COUNTS
+            winningVote = 0;
+            winner;
+            winningVote2 = 0;
+            winner2;
+            for (uint p = 0; p < candidate_list.length; p++) {
+                address payable candidate_address = candidate_list[p];
+                uint vote_count = candidates[candidate_address].vote_count;
+
+                if (vote_count > winningVote) { // if higher than winningVote - Winner
+                    winningVote = vote_count;
+                    winner = candidate_address;
+                } else if (vote_count == winningVote) { // if equal to previous winningVote - Draw
+                    winningVote2 = vote_count;
+                    winner2 = candidate_address;
+                }
             }
-            emit Drawn(escrow);   
+
+            if(winningVote == winningVote2) {
+                WinDraw(false,winner);
+            } else {
+                WinDraw(true,winner);
+            }            
             // return (winningVote, winner, winningVote2, winner2);
         } else {
+            WinDraw(true,winner);
+            // return (winningVote, winner, winningVote2, winner2);
+        }
+
+    }
+
+    function WinDraw(bool win, address payable winner) private {
+        if(win) {
             // Win case
             for (uint i = 0; i < candidate_list.length; i++) { // amount from loosing candidates to winner
                 address payable candidate_address = candidate_list[i];
@@ -180,11 +201,19 @@ contract MayorMultipleCandidates {
                 address payable voter = candidates[winner].voters[v];
                 voter.transfer(share); 
             }
-
             emit NewMayor(winner);
-            // return (winningVote, winner, winningVote2, winner2);
+        } else {
+            // Drawn case
+            for (uint i = 0; i < candidate_list.length; i++) {
+                address payable candidate_address = candidate_list[i];
+                for (uint v = 0; v < candidates[candidate_address].voters.length; v++) {
+                    address payable voter = candidates[candidate_address].voters[v];
+                    Refund memory voter_details = souls[voter];
+                    escrow.transfer(voter_details.soul);
+                }                
+            }
+            emit Drawn(escrow);   
         }
-
     }
     
     function compute_envelope(uint _sigil, address _candidate, uint _soul) public pure returns(bytes32) {

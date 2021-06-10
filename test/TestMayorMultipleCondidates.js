@@ -27,15 +27,15 @@ contract("MayorMultipleCandidates", (accounts) => {
 
     await instance.add_candidate.sendTransaction(candidates[0], {
       from: candidates[0],
-      value: 100000,
+      value: 100000000,
     });
     await instance.add_candidate.sendTransaction(candidates[1], {
       from: candidates[1],
-      value: 100000,
+      value: 100000000,
     });
     await instance.add_candidate.sendTransaction(candidates[2], {
       from: candidates[2],
-      value: 100000,
+      value: 100000000,
     });
   });
 
@@ -46,18 +46,18 @@ contract("MayorMultipleCandidates", (accounts) => {
 
   it("should be able to cast envelope", async () => {
     // compute_envelope(sigil, candidate_secret, soul)
-    const envelops = await instance.compute_envelope(1, candidates[0], 5000);
+    const envelops = await instance.compute_envelope(1, candidates[0], 5000000);
     const result = await instance.cast_envelope(envelops);
     truffleAssert.eventEmitted(result, "EnvelopeCast");
   });
 
   it("should not open envelope before the quorum is reached ", async () => {
-    const envelops = await instance.compute_envelope(1, candidates[0], 5000);
+    const envelops = await instance.compute_envelope(1, candidates[0], 5000000);
     await instance.cast_envelope(envelops);
     await truffleAssert.fails(
       instance.open_envelope.call(1, candidates[0], {
         from: accounts[4],
-        value: 5000,
+        value: 5000000,
       })
     );
   });
@@ -67,7 +67,7 @@ contract("MayorMultipleCandidates", (accounts) => {
       const envelops = await instance.compute_envelope(
         i + 1,
         candidates[0],
-        (i + 1) * 5000
+        (i + 1) * 5000000
       );
       await instance.cast_envelope(envelops, { from: accounts[i + 3] });
     }
@@ -79,12 +79,11 @@ contract("MayorMultipleCandidates", (accounts) => {
       candidates[0],
       {
         from: accounts[3],
-        value: 5000,
+        value: 5000000,
       }
     );
     // console.log(
     //   (await instance.get_candidate_vote_count(candidates[0])).toNumber(),
-    //   "123123123"
     // );
     // console.log(candidates[0], await instance.get_candidate_using_idx(0));
     // console.log(candidates[1], await instance.get_candidate_using_idx(1));
@@ -97,7 +96,7 @@ contract("MayorMultipleCandidates", (accounts) => {
       const envelops = await instance.compute_envelope(
         i + 1,
         candidates[idx],
-        5000
+        5000000
       );
       await instance.cast_envelope(envelops, { from: accounts[i + 3] });
     }
@@ -106,7 +105,7 @@ contract("MayorMultipleCandidates", (accounts) => {
       let idx = i % 2 === 0 ? 1 : 0;
       await instance.open_envelope.sendTransaction(i + 1, candidates[idx], {
         from: accounts[i + 3],
-        value: 5000,
+        value: 5000000,
       });
     }
     let result = await instance.mayor_or_sayonara();
@@ -117,7 +116,6 @@ contract("MayorMultipleCandidates", (accounts) => {
     //   result[1],
     //   result[2].toNumber(),
     //   result[3],
-    //   "qweqweqeqw"
     // );
   });
 
@@ -127,7 +125,7 @@ contract("MayorMultipleCandidates", (accounts) => {
       const envelops = await instance.compute_envelope(
         i + 1,
         candidates[idx],
-        (i + 1) * 5000
+        (i + 1) * 5000000
       );
       await instance.cast_envelope(envelops, { from: accounts[i + 3] });
     }
@@ -136,7 +134,7 @@ contract("MayorMultipleCandidates", (accounts) => {
       let idx = i % 2 === 0 ? 1 : i % 3 === 0 ? 2 : 0;
       await instance.open_envelope.sendTransaction(i + 1, candidates[idx], {
         from: accounts[i + 3],
-        value: (i + 1) * 5000,
+        value: (i + 1) * 5000000,
       });
     }
     let result = await instance.mayor_or_sayonara();
@@ -147,7 +145,6 @@ contract("MayorMultipleCandidates", (accounts) => {
     //   result[1],
     //   result[2].toNumber(),
     //   result[3],
-    //   "qweqweqeqw"
     // );
     //   console.log("\t Gas Used: " + result.receipt.gasUsed);
     //   truffleAssert.eventEmitted(result, "Sayonara");
