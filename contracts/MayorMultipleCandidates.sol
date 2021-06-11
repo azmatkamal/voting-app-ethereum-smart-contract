@@ -205,13 +205,19 @@ contract MayorMultipleCandidates {
             // Win case
             for (uint i = 0; i < candidate_list.length; i++) { // amount from loosing candidates to winner
                 address payable candidate_address = candidate_list[i];
-                if(candidate_address != winner) {
+                if(candidate_address != winner) { // LOSING CANDIATE SOUL TO THE WINNER CANDIDATE
                     Refund memory voter_detail = souls[candidate_address];
                     winner.transfer(voter_detail.soul); 
+                    // LOSING VOTERS GET THEIR SOUL BACK
+                    for (uint v = 0; v < candidates[candidate_address].voters.length; v++) { 
+                        address payable voter = candidates[candidate_address].voters[v];
+                        Refund memory loosing_voter_details = souls[voter];
+                        voter.transfer(loosing_voter_details.soul);
+                    }
                 }            
             }            
-            Refund memory voter_details = souls[winner];
-            uint soul = voter_details.soul;
+            Refund memory winner_voter_details = souls[winner];
+            uint soul = winner_voter_details.soul;
             uint share = soul / candidates[winner].voters.length;
             for (uint v = 0; v < candidates[winner].voters.length; v++) { // amount from winner to its voter (divided)
                 address payable voter = candidates[winner].voters[v];
