@@ -36,7 +36,7 @@ export default class Login extends Component {
     if (account_type === "candidate") {
       const result = await mayor.add_candidate.sendTransaction(account, {
         from: account,
-        value: "100000000000000",
+        value: voting_amount,
       });
       const candidateCount = (await mayor.get_candidate_count()).toNumber();
       if (candidateCount > 0 && result) {
@@ -137,16 +137,24 @@ export default class Login extends Component {
                   />
                 </FormGroup>
               )}
-              {this.state.account_type === "voter" && (
+              {this.state.account_type && (
                 <FormGroup>
-                  <Label for="voting_amount">Voting Amount</Label>
+                  <Label for="voting_amount">
+                    {this.state.account_type === "voter"
+                      ? "Voting Amount"
+                      : "Initial Deposit"}
+                  </Label>
                   <Input
                     type="text"
                     name="voting_amount"
                     id="voting_amount"
                     onChange={this.onChange}
                     value={this.state.voting_amount}
-                    placeholder="Enter your voting amount"
+                    placeholder={`Enter your ${
+                      this.state.account_type === "voter"
+                        ? "Voting Amount"
+                        : "Initial Deposit"
+                    }`}
                   />
                 </FormGroup>
               )}
