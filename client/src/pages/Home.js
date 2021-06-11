@@ -232,7 +232,7 @@ export default class Home extends Component {
               {winner === "" &&
                 winner_type === false &&
                 "Results not available yet..."}
-              {winner !== "" && winner_type === false && <h4>Drawan</h4>}
+              {winner !== "" && winner_type === false && <h4>Draw</h4>}
               {winner !== "" && winner_type === true && <h4>{winner}</h4>}
             </CardSubtitle>
             <Button onClick={this.checkResult}>Check result</Button>

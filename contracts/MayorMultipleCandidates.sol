@@ -66,6 +66,7 @@ contract MayorMultipleCandidates {
     }
 
     function add_candidate(address payable _candidate) public payable {
+        require(msg.value > 0, "Deposite souls must be greater than 0...");
         candidates[_candidate] = Candidate({ id: payable(_candidate), vote_count: 0, voters: new address payable[](0)});
         voting_condition.candidate_count++;
         candidate_list.push(_candidate);
