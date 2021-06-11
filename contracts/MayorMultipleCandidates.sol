@@ -38,7 +38,9 @@ contract MayorMultipleCandidates {
     // address payable[] voters;
     
     Conditions voting_condition;
-    bool private flag = false;
+    bool private flag = false;    
+    address payable private winning_candidate;
+    bool private winning_flag;
 
     
     modifier canVote() {
@@ -114,7 +116,14 @@ contract MayorMultipleCandidates {
         return candidate_list[idx];
     }
 
+    function check_result() public view returns(address, bool) {
+        return (winning_candidate, winning_flag);
+    }
+
     function mayor_or_sayonara() canCheckOutcome public {
+        // require(flag == false, "Envelope can be opened for a single time only.");
+        // flag = true;
+
         uint winningVote = 0;
         address payable winner;
         uint winningVote2 = 0;
@@ -172,12 +181,18 @@ contract MayorMultipleCandidates {
             }
 
             if(winningVote == winningVote2) {
+                winning_candidate = winner;
+                winning_flag = false;
                 WinDraw(false,winner);
             } else {
+                winning_candidate = winner;
+                winning_flag = true;
                 WinDraw(true,winner);
             }            
             // return (winningVote, winner, winningVote2, winner2);
         } else {
+            winning_candidate = winner;
+            winning_flag = true;
             WinDraw(true,winner);
             // return (winningVote, winner, winningVote2, winner2);
         }

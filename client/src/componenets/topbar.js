@@ -19,7 +19,11 @@ export default class Topbar extends Component {
   }
 
   Logout = () => {
-    localStorage.removeItem("ethtoken");
+    localStorage.removeItem("eth_token");
+    localStorage.removeItem("eth_account_type");
+    localStorage.removeItem("eth_sigil");
+    localStorage.removeItem("eth_voting_amount");
+    localStorage.removeItem("eth_envelope_opened");
     window.location.href = "/login";
   };
 
