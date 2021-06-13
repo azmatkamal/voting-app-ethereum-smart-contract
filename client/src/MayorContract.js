@@ -12,16 +12,8 @@ const accounts = async () => {
 };
 
 const contract = async () => {
-  // const accountList = await accounts();
-  //   const networkId = await web3.eth.net.getId();
-  //   const deployedNetwork = MayorMultipleCandidates.networks[networkId];
-  //   const contract = truffleContract({
-  //     abi: MayorMultipleCandidates.abi,
-  //     unlinked_binary: MayorMultipleCandidates.bytecode,
-  //   });
   const contract = truffleContract(MayorMultipleCandidates);
   contract.setProvider(web3.currentProvider);
-  // contract.new(accountList[0], 4, { from: accountList[0] });
   const instance = await contract.deployed();
 
   return instance;
