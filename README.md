@@ -9,4 +9,4 @@ truffle migrate<br/>
 truffle deploy<br/>
 truffle test<br/>
 <br/>
-client folder contains front end application which will be built later on as of initial code push on 29th May 2021<br/>
+Follow Document.pdf for more details.
