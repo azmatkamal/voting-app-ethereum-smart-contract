@@ -1,5 +1,5 @@
 # ethereum-smart-contract
-This is the application related to decenteralized votting application using ethereum smart contract. All the use cases and scenarios are mentioned in the document.pdf at root. <br/>
+This is the application related to the decentralized voting application using Ethereum smart contract. All the use cases and scenarios are mentioned in the document.pdf at the root.<br/>
 <br/>
 Truffle, Solidity, ReactJS, NodeJS, Ganache (local block chain) <br/>
 <br/>
