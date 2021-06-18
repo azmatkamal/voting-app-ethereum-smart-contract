@@ -1,4 +1,6 @@
 # ethereum-smart-contract
+This is the application related to decenteralized votting application using ethereum smart contract. All the use cases and scenarios are mentioned in the document.pdf at root. <br/>
+Truffle, Solidity, ReactJS, NodeJS, Ganache (local block chain) <br/>
 npm install <br/>
 npm install --prefix client<br/>
 <br/>
