@@ -122,8 +122,9 @@ contract MayorMultipleCandidates {
     }
 
     function mayor_or_sayonara() canCheckOutcome public {
-        // require(flag == false, "Envelope can be opened for a single time only.");
-        // flag = true;
+        require(flag == false, "Envelope can be opened for a single time only.");
+        
+        flag = true;
 
         uint winningVote = 0;
         address payable winner;

@@ -16,11 +16,11 @@ contract("Mayor", (accounts) => {
     console.log("\t Escrow: " + escrow);
   });
 
-  after(() => {
-    console.log("\t Quorum: " + quorum);
-    console.log("\t Candidate: " + candidate);
-    console.log("\t Escrow: " + escrow);
-  });
+  // after(() => {
+  //   console.log("\t Quorum: " + quorum);
+  //   console.log("\t Candidate: " + candidate);
+  //   console.log("\t Escrow: " + escrow);
+  // });
 
   beforeEach(async () => {
     instance = await Mayor.new(candidate, escrow, quorum);
@@ -66,7 +66,7 @@ contract("Mayor", (accounts) => {
       await instance.cast_envelope(envelops, { from: accounts[i + 2] });
     }
 
-    for (let i = 0; i < quorum; i++) { 
+    for (let i = 0; i < quorum; i++) {
       await instance.open_envelope.sendTransaction(i + 1, true, {
         from: accounts[i + 2],
         value: (i + 1) * 5000,

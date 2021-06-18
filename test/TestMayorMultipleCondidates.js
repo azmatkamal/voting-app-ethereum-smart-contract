@@ -117,7 +117,7 @@ contract("MayorMultipleCandidates", (accounts) => {
       });
     }
     let result = await instance.mayor_or_sayonara();
-    console.log(await instance.check_result());
+    // console.log(await instance.check_result());
 
     truffleAssert.eventEmitted(result, "Drawn");
     // console.log(
@@ -147,7 +147,7 @@ contract("MayorMultipleCandidates", (accounts) => {
       });
     }
     let result = await instance.mayor_or_sayonara();
-    console.log(await instance.check_result());
+    // console.log(await instance.check_result());
 
     truffleAssert.eventEmitted(result, "NewMayor");
     // console.log(

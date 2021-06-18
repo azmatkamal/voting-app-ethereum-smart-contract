@@ -110,7 +110,11 @@ export default class Home extends Component {
     } catch (error) {
       console.log(error);
       if (error && error.message && error.message.indexOf("Reason given:")) {
-        // window.alert(error.message.split("Reason given:")[1].trim());
+        if(error.message.split("Reason given:")[1] && error.message.split("Reason given:")[1].trim()) {
+          window.alert(error.message.split("Reason given:")[1].trim());
+        } else {
+          window.alert(error.message);
+        }
       } else {
         window.alert("Unable to open an envelope...");
       }
